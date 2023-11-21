@@ -1,7 +1,7 @@
 #ifndef CONF_HPP
 #define CONF_HPP
 
-// Esp Configuration
+// ESP Configuration
 const int PORT_SPEED = 9600;
 
 // WiFi parameters
@@ -14,15 +14,18 @@ const char* broker_ip = "192.168.146.206"; // IP address of your MQTT
 const char *ID = "sensors";  // Name of our device, must be unique
 
 // Topics
-const char *water_topic = "hammer/water_out"; 
-const char *temperature_topic = "hammer/temperature_out"; 
-const char *himidity_topic = "hammer/humidity_out"; 
-const char *light_topic = "hammer/light_out"; 
+const char *topic_water = "hammer/water_out"; 
+const char *topic_temperature = "hammer/temperature_out"; 
+const char *topic_humidity = "hammer/humidity_out"; 
+const char *topic_light = "hammer/light_out"; 
 
 
 // Pin configuration
-const int pin_water = 34;
-const int pin_temperature = 35;
-const int pin_light = 25;
+#define DHTTYPE DHT11
+const int pin_water = 35;
+const int pin_dht = 32;
+const int pin_light = 33;
+
+// Pin Input
 
 #endif//CONF_H
