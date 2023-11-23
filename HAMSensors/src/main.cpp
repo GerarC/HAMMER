@@ -5,7 +5,10 @@
 #include <include/conf.hpp>
 #include <PubSubClient.h>
 #include <Adafruit_Sensor.h>
+#include <sstream>
 #include "DHT.h"
+
+using std::stringstream;
 
 // Needed Objects
 // Wifi
@@ -43,18 +46,17 @@ void setup() {
 }
 
 void loop() {
-  /*
   if (!mqttClient.connected()) {
     mqttConnect();
   }
+
   // Let PubSubClient library do his magic
   mqttClient.loop();
-  */
   readWaterSensor();
   readDHTTemperature();
   readDHTHumidity();
   readLightSensor();
-  delay(2000);
+  delay(1000 * 10);
 }
 
 // WIFI
@@ -71,7 +73,6 @@ void setup_wifi() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
-
 
 
 // MQTT
@@ -94,25 +95,33 @@ void callback(char* topic, byte* message, unsigned int length){}
 // Sensors
 void readWaterSensor(){
   int water_data =  analogRead(pin_water);
-  Serial.print(F("Agua: "));
-  Serial.println(water_data);
+  stringstream ss;
+  ss << "water:" << water_data;
+  mqttClient.publish(topic_water, ss.str().c_str());
+  Serial.println(ss.str().c_str());
 }
 
 void readDHTTemperature(){
   float temperature_data = dht.readTemperature();
-  Serial.print(F("temperatura: "));
-  Serial.println(temperature_data);
+  stringstream ss;
+  ss << "temperature:" << temperature_data;
+  mqttClient.publish(topic_water, ss.str().c_str());
+  Serial.println(ss.str().c_str());
 }
 
 void readDHTHumidity(){
   float humidity_data = dht.readHumidity();
-  Serial.print(F("humedad: "));
-  Serial.println(humidity_data);
+  stringstream ss;
+  ss << "humidity:" << humidity_data;
+  mqttClient.publish(topic_water, ss.str().c_str());
+  Serial.println(ss.str().c_str());
 }
 
 void readLightSensor(){
   delay(10);
   int light_data = analogRead(pin_light);
-  Serial.print(F("Luz: "));
-  Serial.println(light_data);
+  stringstream ss;
+  ss << "light:" << light_data;
+  mqttClient.publish(topic_water, ss.str().c_str());
+  Serial.println(ss.str().c_str());
 }
